@@ -17,10 +17,6 @@ int myMap[] = {
 
 
 
-
-
-
-
 void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double centerX, double centerY,double radAngle){
     int FOV = 120; // degrees
     if (radAngle < 0){
@@ -38,9 +34,6 @@ void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double cent
     // let x be the number of rays
     for (int x = 0; x < rayCount; x++){
 
-
-        
-
         double rayXH = centerX;
         double rayYH = centerY;
         double rayXV = centerX;
@@ -52,7 +45,6 @@ void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double cent
         
         directionCheck = (rayAngleStart + (x * rayAngle));
         
-       
         directionCheck = std::fmod(directionCheck, 2 * M_PI);
         if (directionCheck < 0) {
             directionCheck += 2 * M_PI;
@@ -64,7 +56,6 @@ void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double cent
             // up
             changeY = ((std::fmod(centerY, 40)));
             rayYH -= changeY;
-   
 
         } else {
             // down
@@ -346,16 +337,7 @@ void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double cent
                 
             }
                 
-
-
-        
-
         }
-
-        //hitDistance /= std::cos(directionCheck - radAngle);
-
-        
-
         int wallHeight = 7680 / hitDistance;
 
         int wallTop;
@@ -378,38 +360,6 @@ void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double cent
             }
         }
         
-    
-
-            
-     
-
-
-
-
-
-        // int wallHeight = 1536 / hitDistance;
-        // int wallColor = 255 - static_cast<int>(hitDistance * 5);
-        // SDL_SetRenderDrawColor(renderer, wallColor, wallColor, wallColor, 255);
-        // int wallTop = (1536 - wallHeight) / 2;
-        // int wallBottom = wallTop + wallHeight;
-        // SDL_RenderDrawLine(renderer, wallX, wallTop, wallX, wallBottom);
-       
-        // SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0);
-        // if (x ==0){
-        //     SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
-        // }
-        // // vertical render
-        // SDL_RenderDrawLine(renderer, centerX, centerY, rayXV, rayYV);
-        // // horizontal render
-        // // my blue
-        // SDL_SetRenderDrawColor(renderer, 0, 200, 200,0);
-        // if (x == 0) {
-        //     SDL_SetRenderDrawColor(renderer, 0, 255, 40, 0);
-        // }
-        // SDL_RenderDrawLine(renderer, centerX, centerY, rayXH, rayYH);
-
-
-
     }
 
 }
@@ -424,11 +374,10 @@ void drawRaycast(SDL_Renderer *renderer, double lookX, double lookY, double cent
 
 void drawPlayer(SDL_Renderer *renderer, double playerx, double playery, int playerRotation, int playerSize)
 {
-    // check if player is in wall tile
-
+    // Check if player is in wall tile
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_Rect playerRect = {
-        playerx, playery, playerSize, playerSize
+        static_cast<int>(playerx), static_cast<int>(playery), playerSize, playerSize
     };
     SDL_RenderFillRect(renderer, &playerRect);
     double centerX = (playerx + (playerSize / 2.0));
@@ -441,8 +390,6 @@ void drawPlayer(SDL_Renderer *renderer, double playerx, double playery, int play
     SDL_RenderDrawLine(renderer, centerX, centerY, lookX, lookY);
 
     drawRaycast(renderer, lookX, lookY, centerX, centerY, radAngle);
-  
-
 
 }
 
@@ -481,7 +428,7 @@ int main()
         return 1;
     }
     SDL_Window *window = SDL_CreateWindow(
-        "Chainsawman",
+        "raycaster",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         1536, 768,
@@ -605,18 +552,7 @@ int main()
         }
         double lookX  = centerX + 30 * std::sin(radAngle);
         double lookY = centerY + 30 * std::cos(radAngle);
-
-        // for (int ticker; ticker < (sizeof(hitboxMap) / sizeof(hitboxMap[0])); ticker++){
-        //     int playerColumn = playery / 40;
-        //     int playerRow = playerx / 40;
-        //     int playerIndex = playerColumn * 10 + playerRow;
-        // }
-        // int playerColumn = playery / 40;
-        // int playerRow = playerx / 40;
-        // int playerIndex = playerColumn * 10 + playerRow;
-        // bool frame_collision = true;
         
-        // drawPlayer(renderer, playerx, playery);
         // // update render
         SDL_RenderPresent(renderer);
         
